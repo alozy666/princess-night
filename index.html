@@ -1,0 +1,765 @@
+<meta charset="utf-8">
+<title>ليلة أميرتي</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* Layout: one night world. A fixed painted scene sits behind a single centred column of dark glass panels; gold hairlines mark what is sealed, rose marks what she can press. */
+:root{
+  color-scheme:dark;
+  --night:#140a1e; --night-2:#22102e; --plum:#3b1a48;
+  --rose:#ec4899; --rose-deep:#be185d; --petal:#fbcfe8;
+  --gold:#e9c06a; --gold-deep:#b8862f;
+  --cream:#fff4ec; --muted:#dcc3d2;
+  --glass:rgba(20,10,30,.76); --line:rgba(233,192,106,.34); --hair:rgba(255,244,236,.1);
+  --f-display:'Aref Ruqaa','Amiri','Traditional Arabic',serif;
+  --f-body:'Tajawal','Segoe UI',Tahoma,sans-serif;
+  --r:20px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--night);color:var(--cream);font-family:var(--f-body);font-size:17px;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+#app{position:relative;min-height:100%;display:flex;flex-direction:column;isolation:isolate}
+.scene{position:fixed;inset:0;z-index:-2;background-color:var(--night);background-size:cover;background-position:center}
+.scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,10,30,.66) 0%,rgba(20,10,30,.5) 38%,rgba(20,10,30,.88) 100%)}
+#app[data-scene="cover"] .scene{background-image:url(img/cover.jpg),radial-gradient(120% 80% at 80% 0%,#4a1d5c 0%,transparent 60%),radial-gradient(90% 60% at 10% 100%,#7a1746 0%,transparent 65%),linear-gradient(180deg,#1a0c27,#140a1e)}
+#app[data-scene="road"] .scene{background-image:url(img/road.jpg),radial-gradient(60% 40% at 50% 100%,#7a1746 0%,transparent 70%),radial-gradient(50% 30% at 50% 45%,#5a3a12 0%,transparent 70%),linear-gradient(180deg,#120a22,#1d0f2e)}
+#app[data-scene="dinner"] .scene{background-image:url(img/dinner.jpg),radial-gradient(70% 45% at 50% 85%,#8a3b12 0%,transparent 70%),linear-gradient(180deg,#160b20,#2a1026)}
+#app[data-scene="sea"] .scene{background-image:url(img/sea.jpg),radial-gradient(80% 40% at 50% 70%,#1e3a6e 0%,transparent 70%),linear-gradient(180deg,#0e0a24,#131a3a)}
+#app[data-scene="home"] .scene{background-image:radial-gradient(70% 45% at 30% 80%,#8a3b12 0%,transparent 70%),radial-gradient(60% 40% at 80% 20%,#5b1a4f 0%,transparent 70%),linear-gradient(180deg,#170b1f,#24102a)}
+.aurora{position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(40% 30% at 20% 30%,rgba(236,72,153,.2),transparent 70%),radial-gradient(35% 30% at 80% 65%,rgba(233,192,106,.13),transparent 70%),radial-gradient(45% 35% at 60% 10%,rgba(124,58,237,.16),transparent 70%);filter:blur(24px);animation:drift 12s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate3d(-2%,-1%,0) scale(1)}to{transform:translate3d(2%,2%,0) scale(1.06)}}
+
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px;width:100%;max-width:520px;margin-inline:auto}
+.crown{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--gold);display:grid;place-items:center;padding:0;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.count{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 16px;border-radius:999px;border:1px solid var(--line);background:var(--glass);font-weight:700;color:var(--petal)}
+.tend{display:flex;align-items:center;gap:8px}
+.ico{width:24px;height:24px;flex:none}
+.view{flex:1;display:flex;flex-direction:column;gap:18px;width:100%;max-width:520px;margin-inline:auto;padding-block:8px 36px}
+.view>*{animation:rise .42s cubic-bezier(.2,.8,.2,1) both}
+.view>*:nth-child(2){animation-delay:.05s}.view>*:nth-child(3){animation-delay:.1s}.view>*:nth-child(4){animation-delay:.15s}.view>*:nth-child(n+5){animation-delay:.2s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.eyebrow{margin:0;color:var(--gold);font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.h1{margin:0;font-family:var(--f-display);font-weight:700;font-size:36px;line-height:1.35;text-wrap:balance;text-shadow:0 2px 18px rgba(20,10,30,.8)}
+.h1.big{font-size:44px}
+.h2{margin:8px 0 0;font-family:var(--f-display);font-weight:700;font-size:24px;color:var(--petal)}
+.lead{margin:0;color:var(--cream);text-shadow:0 1px 12px rgba(20,10,30,.9)}
+.fine{margin:0;color:var(--muted);font-size:15px;display:flex;align-items:flex-start;gap:8px}
+.fine .ico{width:20px;height:20px;margin-top:4px}
+.center{text-align:center;justify-content:center}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;flex-direction:column;gap:12px}
+.card p{margin:0}
+.card ol,.card ul{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.decree{box-shadow:inset 0 0 0 5px rgba(20,10,30,.6),inset 0 0 0 6px var(--line)}
+.q{font-family:var(--f-display);font-size:23px;line-height:1.9}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 140px}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;padding:12px 20px;border-radius:14px;border:1px solid rgba(251,207,232,.35);background:linear-gradient(135deg,var(--rose-deep),#9d174d);color:#fff;font-weight:700;font-size:18px;box-shadow:0 10px 30px rgba(190,24,93,.35);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:rgba(20,10,30,.55);border-color:var(--line);color:var(--gold);box-shadow:none}
+.btn.small{min-height:46px;font-size:16px}
+.link{background:none;border:0;color:var(--muted);text-decoration:underline;min-height:44px;align-self:center;padding:8px 14px}
+
+/* cover */
+.cover{align-items:center;text-align:center;display:flex;flex-direction:column;gap:16px;padding-top:6vh}
+.cover .eyebrow{justify-content:center}
+.seal{position:relative;width:168px;height:168px;border:0;background:none;padding:0;margin-top:10px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.seal .ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.seal .ring circle{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;stroke-dasharray:352;stroke-dashoffset:352}
+.wax{position:absolute;inset:18px;border-radius:47% 53% 50% 50%/52% 48% 52% 48%;background:radial-gradient(circle at 35% 30%,#e04468 0%,#b0153f 45%,#6d0b29 100%);box-shadow:inset 0 -6px 14px rgba(0,0,0,.45),inset 0 5px 10px rgba(255,255,255,.22),0 14px 34px rgba(0,0,0,.55);display:grid;place-items:center;color:#ffd9a8;animation:pulse 2.4s ease-in-out infinite}
+.wax .ico{width:58px;height:58px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.seal.broken .wax{animation:crack .5s ease-in forwards}
+@keyframes crack{to{transform:scale(1.5) rotate(14deg);opacity:0}}
+
+/* map */
+.bouquet{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bouquet .ico{width:30px;height:30px;color:rgba(255,244,236,.28)}
+.bouquet .ico.got{color:var(--rose)}
+.tiles,.slots{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tile,.slot{width:60px;height:68px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-display);font-size:32px;font-weight:700;line-height:1}
+.tile{border:1px solid var(--gold);background:rgba(233,192,106,.14);color:var(--gold);padding:0}
+button.tile:disabled{opacity:.3}
+.slot{border:1px dashed var(--line);background:rgba(20,10,30,.55);color:var(--cream)}
+.tile.sm{width:46px;height:52px;font-size:26px}
+.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.node{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--hair)}
+.node .dot{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--gold);flex:none}
+.node b{display:block;font-size:18px;line-height:1.5}
+.node small{display:block;color:var(--muted);font-size:14.5px;line-height:1.5}
+.node>div{min-width:0}
+.node.done .dot{background:rgba(190,24,93,.35);color:var(--petal);border-color:rgba(251,207,232,.4)}
+.node.now{border-color:var(--gold);box-shadow:0 8px 30px rgba(233,192,106,.16)}
+.node.locked b{color:var(--muted);font-family:var(--f-display);font-size:22px}
+
+/* riddle */
+.tbar{display:flex;align-items:center;gap:12px}
+.tbar .track{flex:1;height:8px;border-radius:99px;background:rgba(255,244,236,.14);overflow:hidden}
+.tbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--rose));transform-origin:right;transition:transform 1s linear}
+.tbar span{font-weight:700;color:var(--gold);min-width:2.2em;text-align:center;font-variant-numeric:tabular-nums}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{min-height:54px;padding:10px 18px;border-radius:14px;border:1px solid var(--line);background:var(--glass);text-align:start;font-weight:500;font-size:18px;transition:background .2s,border-color .2s}
+.opt.wrong{border-color:#fca5a5;color:#fecaca;opacity:.6;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(6px)}50%{transform:translateX(-6px)}75%{transform:translateX(3px)}}
+.msg{margin:0;min-height:1.8em;color:var(--petal);font-weight:700;text-align:center}
+
+/* scratch reveal */
+.scratch{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);aspect-ratio:4/5;max-height:54vh;width:100%;background:var(--night-2)}
+.art{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;padding:22px;background-size:cover;background-position:center;text-align:center;background-image:radial-gradient(70% 50% at 50% 40%,#6b2360 0%,transparent 70%),linear-gradient(180deg,#22102e,#140a1e)}
+.art::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(20,10,30,.9))}
+.art>*{position:relative}
+.art .ico{width:44px;height:44px;color:var(--gold)}
+.art strong{font-family:var(--f-display);font-size:34px;line-height:1.4}
+.art[data-img="dinner"]{background-image:url(img/dinner.jpg),radial-gradient(70% 50% at 50% 70%,#8a3b12 0%,transparent 70%),linear-gradient(180deg,#22102e,#140a1e)}
+.art[data-img="sea"]{background-image:url(img/sea.jpg),radial-gradient(80% 45% at 50% 65%,#1e3a6e 0%,transparent 70%),linear-gradient(180deg,#131a3a,#0e0a24)}
+.art[data-img="home"]{background-image:radial-gradient(70% 50% at 40% 70%,#8a3b12 0%,transparent 70%),linear-gradient(180deg,#24102a,#170b1f)}
+.scratch canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
+
+/* road */
+.blurred{filter:blur(9px);user-select:none;-webkit-user-select:none;transition:filter .2s}
+.blurred.show{filter:none}
+#secretBtn{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.game{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:112px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--glass);text-align:start}
+.game .ico{color:var(--gold);width:28px;height:28px}
+.game b{font-size:18px;line-height:1.4}
+.game small{color:var(--muted);font-size:14.5px;line-height:1.5}
+
+/* arrive */
+.doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.door{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:190px;border-radius:90px 90px 14px 14px;border:1px solid var(--gold);background:linear-gradient(180deg,rgba(91,26,79,.85),rgba(20,10,30,.9));color:var(--gold);font-weight:700;font-size:18px;box-shadow:inset 0 0 0 6px rgba(20,10,30,.55)}
+.door .ico{width:40px;height:40px}
+.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.task{display:flex;align-items:flex-start;gap:12px;width:100%;min-height:54px;padding:12px 14px;border-radius:14px;border:1px solid var(--hair);background:var(--glass);text-align:start}
+.task .box{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);display:grid;place-items:center;flex:none;margin-top:3px;color:transparent}
+.task .box .ico{width:18px;height:18px}
+.task.on .box{background:var(--rose-deep);border-color:var(--petal);color:#fff}
+.task.on span:last-child{color:var(--muted);text-decoration:line-through}
+.reason{font-family:var(--f-display);font-size:24px;line-height:1.9;color:var(--petal)}
+
+/* final */
+.word{font-size:64px;text-align:center;color:var(--petal);text-shadow:0 0 34px rgba(236,72,153,.6)}
+.letter p{margin:0}
+.sign{font-family:var(--f-display);font-size:22px;color:var(--gold);text-align:end}
+.reveal{list-style:none;padding:0!important}
+.reveal li{display:flex;gap:10px;align-items:flex-start}
+.reveal .ico{width:20px;height:20px;margin-top:6px;color:var(--gold)}
+
+/* modal + panel */
+.modal,.panel{position:fixed;inset:0;z-index:20;background:rgba(10,5,16,.78);display:flex;align-items:flex-end;justify-content:center;overflow-y:auto}
+.sheet{width:100%;max-width:520px;background:linear-gradient(180deg,#2a1338,#1a0c27);border:1px solid var(--line);border-radius:24px 24px 0 0;padding-top:18px;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:rise .32s cubic-bezier(.2,.8,.2,1) both;max-height:100%;overflow-y:auto}
+.sheet h2{margin:0;font-family:var(--f-display);font-size:26px}
+.shead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.x{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--gold);display:grid;place-items:center;padding:0;flex:none}
+.prompt{font-family:var(--f-display);font-size:26px;line-height:1.8;text-align:center;margin:6px 0;text-wrap:balance}
+.prog{color:var(--muted);font-size:15px;text-align:center;margin:0}
+.event{border:1px solid var(--gold);border-radius:18px;padding:18px;background:rgba(233,192,106,.1);display:flex;flex-direction:column;gap:10px;text-align:center}
+.event .eyebrow{justify-content:center}
+.bingo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cell{min-height:76px;padding:6px;border-radius:12px;border:1px solid var(--line);background:rgba(20,10,30,.6);font-size:15px;line-height:1.4}
+.cell.on{background:var(--rose-deep);border-color:var(--petal);color:#fff;font-weight:700}
+.panel{align-items:flex-start}
+.panel .sheet{border-radius:0 0 24px 24px;min-height:60%}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label,.plabel{font-size:15px;color:var(--muted);font-weight:500}
+.field input,.field textarea,.prow input[type=text]{width:100%;min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(20,10,30,.7);font-size:17px}
+.field textarea{min-height:130px;line-height:1.8;resize:vertical}
+.field input:focus,.field textarea:focus,.prow input[type=text]:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 2px rgba(236,72,153,.35)}
+.plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.prow{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:14px;border:1px solid var(--hair);background:rgba(20,10,30,.5)}
+.prow .phead{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:700}
+.chk input{width:24px;height:24px;accent-color:var(--rose-deep)}
+.pbtns{display:flex;gap:6px}
+.pb{min-width:44px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--gold);padding:0 10px;font-size:15px;font-weight:700}
+.pb:disabled{opacity:.3}
+.note{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(233,192,106,.08);font-size:15.5px}
+.note p{margin:0}
+
+@media (max-width:360px){.h1{font-size:31px}.h1.big{font-size:38px}.tile,.slot{width:52px;height:60px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app" dir="rtl" lang="ar" data-scene="cover">
+  <div class="scene" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <header class="top gut">
+    <button class="crown" id="crown" type="button" aria-label="خريطة الليلة"></button>
+    <div class="tend">
+      <div class="count" id="count" hidden></div>
+      <button class="crown" id="snd" type="button" aria-label="إيقاف الموسيقى"></button>
+    </div>
+  </header>
+  <main class="view gut" id="view"></main>
+  <div class="modal" id="modal" hidden></div>
+  <div class="panel" id="panel" hidden></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+document.documentElement.dir='rtl'; document.documentElement.lang='ar';
+var $=function(s,r){return (r||document).querySelector(s)};
+var AR='٠١٢٣٤٥٦٧٨٩';
+function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+var I={
+ crown:'<path d="M4 17l-1.5-9.5 5.2 4L12 4l4.3 7.5 5.2-4L20 17z"/><path d="M4 20.5h16"/>',
+ rose:'<path d="M12 3c3 0 5.2 2 5.2 4.6S15 12.2 12 12.2 6.8 10.2 6.8 7.6 9 3 12 3z"/><path d="M12 6c1.1 0 2 .8 2 1.8S13.1 9.6 12 9.6"/><path d="M12 12.2V21M12 17.5c-2.2 0-3.8-1.1-4.3-3.2M12 15.5c2.1 0 3.4-.9 4-2.6"/>',
+ lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+ key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l3 3M13.5 9.5l2 2"/>',
+ compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+ fork:'<path d="M7 3v7a2 2 0 0 0 4 0V3M9 12v9M17 3c-2 2-2 6 0 8v10"/>',
+ wave:'<path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
+ home:'<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/>',
+ door:'<path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M4 21h16"/><path d="M14.5 12.5h.01"/>',
+ eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ bolt:'<path d="M13 2L5 13h6l-1 9 8-12h-6z"/>',
+ star:'<path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6L12 16.8 6.7 19.6l1.1-6L3.4 9.4l6-.8z"/>',
+ cup:'<path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5zM17 10h2a2 2 0 0 1 0 4h-2M8 3v2M12 3v2"/>',
+ pin:'<path d="M12 21s-6-6-6-11a6 6 0 0 1 12 0c0 5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/>',
+ q:'<path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.2-1.5 2.4M12 18h.01"/>',
+ x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ heart:'<path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10z"/>',
+ pen:'<path d="M4 20l1-4L16 5l3 3L8 19zM14 7l3 3"/>',
+ grid:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.3h16M4 14.6h16M9.3 4v16M14.6 4v16"/>',
+ note:'<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+ mute:'<path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>',
+ up:'<path d="M6 15l6-6 6 6"/>', down:'<path d="M6 9l6 6 6-6"/>'
+};
+function ico(n,c){return '<svg class="ico '+(c||'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(I[n]||'')+'</svg>'}
+
+/* ---------- content ---------- */
+var ST={
+ dinner:{name:'مائدة العشاء',icon:'fork',scene:'dinner',img:'dinner',
+  riddle:{q:'أجمعُ اثنين حول ضوءٍ صغير. يأتيان إليّ جائعَين، ويغادرانني وقد شبعا حديثًا قبل الطعام. ما أنا؟',opts:['مكتبةٌ قديمة','مائدةُ عشاء','محطةُ قطار','سوقُ العطور'],a:1,hint:'فيها شموعٌ وأطباق، وكرسيّان متقابلان.'},
+  tease:'في المحطة القادمة ضوءٌ صغير يكفي لاثنين فقط.',
+  line:'ضوءٌ خافت، وطاولةٌ لاثنين، ولا أحد غيرنا يعنيني.',
+  secret:'اجعليه يضحك ثلاث مرات قبل أن نصل، من غير أن يعرف أنها مهمّة.',
+  doors:[{t:'باب النخب',x:'ارفعا كأسيكما، وليقل كلٌّ منكما للآخر ثلاثة أشياء يحبها فيه. من يتردد أكثر من خمس ثوانٍ يبدأ من جديد.'},{t:'باب الاختيار',x:'ليطلب كلٌّ منكما للآخر طبقًا أو مشروبًا من غير أن يسأله. ثم احكما: من عرف صاحبه أكثر؟'}],
+  tasks:['عشر دقائق بلا هاتف. من يلمس هاتفه أولًا يدين للآخر بأمنية.','صورةٌ للطاولة قبل أن يُمسّ الطعام، وصورةٌ لكما معًا.','ليخبر كلٌّ منكما الآخر بشيءٍ لم يقله له من قبل.'],
+  reason:'لأن الطعام معكِ ألذّ، ولو كان خبزًا وماء.'},
+ sea:{name:'شاطئ البحر',icon:'wave',scene:'sea',img:'sea',
+  riddle:{q:'لي صوتٌ ولا لسان لي. أكتبُ على الرمل ثم أمحو ما كتبت، ويزورني القمر كل ليلةٍ ليرى وجهه فيّ. ما أنا؟',opts:['الصحراء','المرآة','البحر','الريح'],a:2,hint:'أزرق في النهار، فضّيٌّ في الليل، ولا ينام.'},
+  tease:'في المحطة القادمة شيءٌ لا ينام، ينتظركِ تحت ضوء القمر.',
+  line:'موجٌ وقمر، ويدكِ في يدي. لا أحتاج أكثر من هذا.',
+  secret:'أمسكي يده ثلاث مرات في لحظاتٍ لا يتوقعها قبل أن نصل.',
+  doors:[{t:'باب الرمل',x:'اكتبا اسميكما على الرمل قريبًا من الماء، وصوّراهما قبل أن يمحوهما الموج.'},{t:'باب النجوم',x:'اختارا نجمةً واحدة في السماء وامنحاها اسمًا لا يعرفه غيركما. من الليلة هي نجمتكما.'}],
+  tasks:['ليهمس كلٌّ منكما للموج بأمنية، ولا يخبر بها الآخر.','ابحثي عن صدفةٍ أو حصاةٍ صغيرة تحملينها تذكارًا من هذه الليلة.','دقيقةُ صمتٍ كاملة، يدًا بيد، ووجهاكما إلى البحر.'],
+  reason:'لأن في عينيكِ اتساعًا لا أجده إلا في البحر.'},
+ home:{name:'ملاذنا الدافئ',icon:'home',scene:'home',img:'home',
+  riddle:{q:'هو آخر الطريق وأوّل الدفء. بابه يعرف خطواتنا، ونوره لا ينتظر أحدًا سوانا. إلى أين نمضي؟',opts:['المطار','الشقة','حديقةٌ عامة','سوقٌ ليلي'],a:1,hint:'فيه مفتاحٌ واحد، وكوبان، وباقةٌ تنتظر مكانها.'},
+  tease:'المحطة القادمة هي آخر الطريق، وفيها تنتظركِ الخزنة.',
+  line:'انتهى الطريق، وبقي أجمل ما فيه.',
+  secret:'في الطريق، قولي له جملةً تبدأ بـ«أتذكّر حين…» واجعليه يكمل الحكاية.',
+  doors:[{t:'باب الرقصة',x:'اختاري أغنيةً واحدة وارقصا عليها حتى آخرها، ولو في منتصف الغرفة.'},{t:'باب الليلة',x:'ليذكر كلٌّ منكما أجمل لحظةٍ في هذه الليلة، ولماذا.'}],
+  tasks:['ضعي الورد في ماء، واتركي مكانًا للوردة الأخيرة.','صورةٌ أخيرة لكما مع الباقة.'],
+  reason:'لأن كل الطرق، مهما طالت، أحبّها حين تنتهي بكِ.'},
+ sweet:{name:'محطة الحلوى',icon:'cup',scene:'home',img:'home',
+  riddle:{q:'أنا خاتمة كل مائدة وبداية كل ابتسامة. أذوب إن تأخرتِ عني، ويُختلف عليّ دائمًا: من يأخذ اللقمة الأخيرة؟',opts:['الحساء','الخبز','الحلوى','القهوة المرّة'],a:2,hint:'طعمها سكّر، ولا تكتمل السهرة بدونها.'},
+  tease:'في المحطة القادمة شيءٌ حلو، لكنه ليس أحلى منكِ.',
+  line:'شيءٌ حلو، لأميرةٍ أحلى.',
+  secret:'امدحي شيئًا يرتديه الليلة، من غير أن يشكّ في أنها مهمّة.',
+  doors:[{t:'باب المذاق',x:'ليختر كلٌّ منكما للآخر نكهةً أو صنفًا، ثم تبادلا اللقمة الأولى.'},{t:'باب العيون المغمضة',x:'أغمضي عينيكِ وتذوّقي ما يقدّمه لكِ، وخمّني ما هو.'}],
+  tasks:['اللقمة الأخيرة لمن يقول أجمل جملة.','صورةٌ واحدة مضحكة.'],
+  reason:'لأن ضحكتكِ أحلى ما في أيّ مكان.'},
+ memory:{name:'مكانٌ له ذكرى',icon:'pin',scene:'cover',img:'',
+  riddle:{q:'مكانٌ مررنا به من قبل. ترك فينا شيئًا وتركنا فيه شيئًا، ولا يعرف قيمته أحدٌ غيرنا. ما هو؟',opts:['مكانٌ نراه أول مرة','مكانٌ له ذكرى بيننا','مركز تسوّق','محطة وقود'],a:1,hint:'لو نطقت جدرانه لذكرت اسمينا.'},
+  tease:'المحطة القادمة زرناها من قبل، وتركنا فيها شيئًا منّا.',
+  line:'هنا بدأ شيءٌ ما زال يكبر.',
+  secret:'اسأليه: ما أول شيءٍ لاحظتَه فيّ؟ ولا تخبريه أن السؤال مهمّة.',
+  doors:[{t:'باب البداية',x:'ليروِ كلٌّ منكما ما يتذكره من هذا المكان، ثم قارنا الروايتين.'},{t:'باب الصورة',x:'التقطا صورةً في المكان نفسه، وبالوقفة نفسها إن استطعتما.'}],
+  tasks:['قولي له شيئًا تغيّر فيكِ منذ ذلك اليوم.','ليقل لكِ شيئًا لم يتغير فيه منذ ذلك اليوم.'],
+  reason:'لأن ذكرياتي الجميلة كلها تبدأ بكِ.'},
+ wild:{name:'وجهةٌ مفاجئة',icon:'star',scene:'cover',img:'',
+  riddle:null,
+  tease:'المحطة القادمة لا يعرفها حتى المرسوم.',
+  line:'لا لغز هنا. ثقي بالسائق فقط.',
+  secret:'خمّني الوجهة في سرّكِ، ولا تقولي تخمينكِ إلا حين نصل.',
+  doors:[{t:'باب الجرأة',x:'ليقترح كلٌّ منكما شيئًا واحدًا تفعلانه هنا لم تفعلاه من قبل، ونفّذا أحدهما.'},{t:'باب الحكاية',x:'ألّفا معًا حكايةً قصيرة عن هذا المكان، جملةً منكِ وجملةً منه.'}],
+  tasks:['صورةٌ واحدة تشهد على المفاجأة.','ليقل كلٌّ منكما كلمةً واحدة تصف هذه اللحظة.'],
+  reason:'لأن أيّ مكانٍ يصير وجهةً جميلة ما دمتِ فيه.'}
+};
+var ALL=['dinner','sweet','memory','sea','wild','home'];
+
+var GAMES=[
+ {id:'who',name:'مَن منّا؟',sub:'أشيري إلى صاحب الصفة',icon:'heart',deck:['مَن منّا يعتذر أولًا بعد الخلاف؟','مَن منّا ينام أولًا أثناء الفيلم؟','مَن منّا يضحك على نكاته هو؟','مَن منّا يتأخر في الاستعداد للخروج؟','مَن منّا يتذكر التواريخ المهمة؟','مَن منّا يأكل من طبق الآخر؟','مَن منّا يبدأ برسالة الصباح؟','مَن منّا أشدّ غيرة؟','مَن منّا يضيع في الطريق ولا يعترف؟','مَن منّا يقول «خمس دقائق» وهي نصف ساعة؟','مَن منّا يبكي في الأفلام؟','مَن منّا وقع في الحب أولًا؟']},
+ {id:'rather',name:'لو خُيّرتِ',sub:'اختيارٌ من اثنين، ثم دوره',icon:'compass',deck:[['عشاءٌ فاخر في مطعم','وجبةٌ بسيطة على الشاطئ'],['رحلةٌ إلى الجبال','رحلةٌ إلى جزيرة'],['أن أكتب لكِ قصيدة','أن أطبخ لكِ عشاءً'],['رسالةٌ طويلة كل شهر','كلمةٌ حلوة كل صباح'],['أن نعيد أول لقاءٍ بيننا','أن نرى أنفسنا بعد ثلاثين عامًا'],['ليلةٌ تحت النجوم','ليلةُ فيلمٍ تحت بطانية'],['أن أعرف كل ما تفكرين فيه','أن أفاجئكِ كل يوم'],['أن نرقص تحت المطر','أن نمشي على الشاطئ عند الفجر'],['هديةٌ ثمينة','يومٌ كامل لكِ وحدكِ معي'],['أن نسافر بلا خطة','أن نخطط لكل دقيقة']]},
+ {id:'know',name:'هل تعرفينني؟',sub:'أسئلةٌ بنقاط، مرةً لكِ ومرةً له',icon:'q',deck:[['her','ما الطبق الذي لا يرفضه أبدًا؟'],['him','ما اللون الذي ترتاح له عيناها؟'],['her','ماذا يفعل حين يتوتر؟'],['him','ما الأغنية التي لا تملّ منها؟'],['her','ما أكثر ما يخيفه؟'],['him','ما الذي يُضحكها دائمًا؟'],['her','إلى أين يتمنى أن يسافر؟'],['him','ما الشيء الصغير الذي يسعدها أكثر من الهدايا؟'],['her','ما أول ما يفعله حين يستيقظ؟'],['him','ما الكلمة التي تحب أن تسمعها منه؟']]},
+ {id:'complete',name:'أكملي الجملة',sub:'تبدئين أنتِ، ثم يكملها هو',icon:'pen',deck:['أجمل ما فيك أنك…','أول مرةٍ رأيتك فكّرت أنك…','أشعر بالأمان حين…','أكثر ما أشتاق إليه حين نفترق هو…','لو كان لنا يومٌ كامل بلا التزامات لـ…','الشيء الذي لم أخبرك به من قبل هو…','أضحك كلما تذكرت حين…','أحلم أن نذهب معًا إلى…','أعرف أنك تحبني حين…','بعد عشر سنوات أتخيلنا…']},
+ {id:'bingo',name:'صيد الطريق',sub:'من يكمل صفًّا له أمنية',icon:'grid',deck:['إشارةٌ حمراء','سيارةٌ بيضاء','نخلة','دراجةٌ نارية','لوحةٌ فيها الرقم ٧','القمر','مطعمٌ مضيء','سيارة أجرة','شخصٌ يمشي وحده']}
+];
+var SURPRISES=[
+ 'قسيمة: لكِ حقّ اختيار الأغنية التالية، ولا اعتراض للسائق.',
+ 'تحدٍّ سريع: قولي له ثلاث صفاتٍ تحبينها فيه في عشر ثوانٍ.',
+ 'قسيمة: طلبٌ واحد يُنفَّذ الليلة بلا نقاش. احتفظي بها إلى أن تحتاجيها.',
+ 'سؤالٌ مباغت له: متى عرف أنه يحبكِ؟',
+ 'تحدٍّ: غنّيا معًا مقطعًا من أغنيةٍ تحبانها بأعلى صوت.',
+ 'قسيمة: صورةٌ يختار هو مكانها، وتختارين أنتِ وقفتها.',
+ 'سؤالٌ مباغت لكِ: ما أول شيءٍ أعجبكِ فيه؟',
+ 'تحدٍّ: دقيقةٌ كاملة بلا كلام، بالإشارات فقط. من يتكلم يخسر.',
+ 'قسيمة: فطورٌ يعدّه لكِ بيديه في يومٍ تختارينه.',
+ 'خبرٌ عاجل: السائق يقول إنكِ أجمل ما في هذه الليلة.'
+];
+var WORD='أحبك';
+var DEFAULT_LETTER='كل ما جرى الليلة كان طريقًا طويلًا إلى كلمةٍ قصيرة.\nخبّأتُ حروفها في المحطات لأنني أردتُ أن تصلي إليها بنفسكِ، كما وصلتِ إلى قلبي من غير أن أدلّكِ على الطريق.\nالورد الذي في يدكِ سيذبل بعد أيام، أما ما تقوله هذه الكلمة فباقٍ ما بقيتُ.\nشكرًا لأنكِ قبلتِ المغامرة، الليلةَ وكل ليلة.';
+
+/* ---------- state ---------- */
+var KEY='princess-night-v1';
+function fresh(){return {screen:'cover',nick:'أميرتي الجميلة',sign:'',letter:'',order:['dinner','sea','home'],places:{},done:[],ph:{},rev:{},hint:{},door:{},tasks:{},secret:{},rosed:{},got:{},pieces:[],roses:0,openRose:false,score:{her:0,him:0},tally:{me:0,him:0,both:0},gi:{},bingo:[],bingoWon:false,used:[],cards:0,vault:false,mute:false}}
+var st=fresh();
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object')st=Object.assign(fresh(),s)}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+
+function cur(){for(var i=0;i<st.order.length;i++){if(st.done.indexOf(st.order[i])<0)return st.order[i]}return null}
+function placeName(id){var p=st.places[id];return (p&&p.trim())||ST[id].name}
+function phase(id){return st.ph[id]||(ST[id].riddle?'riddle':'reveal')}
+function lettersGot(){return st.pieces.join('').replace(/♥/g,'').length}
+function allLetters(){return st.pieces.join('').replace(/♥/g,'').split('')}
+function nextPiece(after){var R=4-lettersGot(),K=after+1,p;
+ if(R<=0)p='♥';else if(K===1)p=WORD.slice(4-R);else if(R>1)p=WORD.slice(4-R,4-R+Math.max(1,R-(K-1)));else p='♥';
+ st.pieces.push(p);return p}
+function totalRoses(){return 1+st.order.length}
+function tilesOf(p,sm){return p.split('').map(function(ch){return '<span class="tile'+(sm?' sm':'')+'">'+(ch==='♥'?ico('heart'):ch)+'</span>'}).join('')}
+
+/* ---------- sound ---------- */
+var AUD={},bgm=null,musicOn=false,sealPending=false;
+function mk(n){
+ var a=new Audio();a.preload='auto';a.src='audio/'+n+'.mp3';
+ a.addEventListener('error',function(){if(a._fb)return;a._fb=true;
+  fetch('audio/'+n+'.mp3').then(function(r){return r.blob()}).then(function(b){a.src=URL.createObjectURL(b)}).catch(function(){})});
+ return a;
+}
+function sfx(n,ok){
+ if(st.mute)return;
+ try{var a=AUD[n]||(AUD[n]=mk(n));try{a.currentTime=0}catch(e){}
+  var p=a.play();if(p&&p.then)p.then(function(){if(ok)ok()}).catch(function(){})}catch(e){}
+}
+function tryMusic(){
+ if(st.mute||!musicOn)return;
+ try{if(!bgm){bgm=mk('theme');bgm.loop=true;bgm.volume=.6}
+  if(bgm.paused){var p=bgm.play();if(p&&p.catch)p.catch(function(){})}}catch(e){}
+}
+function drawSnd(){
+ var b=$('#snd');b.innerHTML=ico(st.mute?'mute':'note');
+ b.setAttribute('aria-label',st.mute?'تشغيل الموسيقى والأصوات':'إيقاف الموسيقى والأصوات');
+ b.setAttribute('aria-pressed',String(!st.mute));
+}
+
+/* ---------- views ---------- */
+var tmr=null,fined=null,vaultTry=[],vaultMsg='';
+function vCover(){
+ return '<section class="cover">'+
+  '<p class="eyebrow">مرسومٌ ملكيّ</p>'+
+  '<h1 class="h1 big">إلى '+esc(st.nick)+'</h1>'+
+  '<p class="lead">في هذا المرسوم سرٌّ لا يُكشف إلا لكِ. ضعي إصبعكِ على الختم، ولا ترفعيه حتى ينكسر.</p>'+
+  '<button class="seal" id="seal" type="button" aria-label="اضغطي مطوّلًا على الختم لفتح المرسوم"><svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle id="sealRing" cx="60" cy="60" r="56"/></svg><span class="wax">'+ico('crown')+'</span></button>'+
+  '<p class="fine center" id="sealHint">اضغطي مطوّلًا على الختم</p>'+
+ '</section>';
+}
+function vIntro(){
+ var h='<p class="eyebrow">'+ico('crown')+'انكسر الختم</p><h1 class="h1">'+esc(st.nick)+'،</h1>'+
+  '<button class="btn ghost small" type="button" data-act="narrate">'+ico('note')+'استمعي إلى المرسوم بصوت المنادي</button>'+
+  '<div class="card decree"><p>هذه الليلة ليست نزهةً عادية. هي مغامرةٌ أعددتُها لكِ وحدكِ، ولها ثلاث قواعد:</p>'+
+  '<ol><li>لن أخبركِ إلى أين نذهب. كل وجهةٍ مختومةٌ بلغز، ومن يحلّه يعرف الطريق.</li>'+
+  '<li>في كل محطةٍ تنهينها وردةٌ بانتظاركِ، ومع كل وردةٍ حرف.</li>'+
+  '<li>الحروف تصنع كلمة، والكلمة تفتح خزنةً في آخر الليل. ما بداخلها؟ لن أقول.</li></ol>'+
+  '<p>أما وردتكِ الأولى فهي لكِ بلا لغز، لأنكِ قبلتِ المغامرة.</p></div>';
+ if(!st.openRose){
+  h+='<p class="lead">اطلبي وردتكِ الأولى من السائق الآن.</p><button class="btn" data-act="openRose">'+ico('rose')+'استلمتُ وردتي الأولى</button>';
+ }else{
+  h+='<div class="card"><p class="eyebrow">'+ico('key')+'حرفكِ الأول</p><div class="tiles">'+tilesOf(st.pieces[0]||'')+'</div><p>احفظيه. لن تعرفي معناه الآن.</p></div>'+
+   '<button class="btn" data-act="toMap">إلى خريطة الليلة</button>';
+ }
+ return h;
+}
+function bouquetCard(){
+ var t=totalRoses(),r='';for(var i=0;i<t;i++)r+=ico('rose',i<st.roses?'got':'');
+ var p=st.pieces.length?'<div class="tiles">'+st.pieces.map(function(x){return tilesOf(x,true)}).join('')+'</div>':'';
+ return '<div class="card"><p class="eyebrow">باقتكِ: '+ar(st.roses)+' من '+ar(t)+'</p><div class="bouquet" role="img" aria-label="'+ar(st.roses)+' وردات من '+ar(t)+'">'+r+'</div>'+
+  (p?'<p class="eyebrow">'+ico('key')+'حروفكِ حتى الآن</p>'+p:'')+'</div>';
+}
+function vMap(){
+ var c=cur(),h='<p class="eyebrow">'+ico('compass')+'خريطة الليلة</p><h1 class="h1">المحطات المجهولة لا تنكشف إلا لمن يحلّ لغزها</h1>'+bouquetCard();
+ h+='<ol class="path"><li class="node done"><span class="dot">'+ico('check')+'</span><div><b>الانطلاقة</b><small>انكسر الختم وبدأت المغامرة</small></div></li>';
+ st.order.forEach(function(id){
+  var s=ST[id];
+  if(st.done.indexOf(id)>=0)h+='<li class="node done"><span class="dot">'+ico('check')+'</span><div><b>'+esc(placeName(id))+'</b><small>وردةٌ في الباقة</small></div></li>';
+  else if(id===c)h+='<li class="node now"><span class="dot">'+ico(st.rev[id]?s.icon:'q')+'</span><div><b>'+(st.rev[id]?esc(placeName(id)):'؟؟؟')+'</b><small>'+(st.rev[id]?'محطتكِ الحالية':'وجهةٌ مختومة بلغز')+'</small></div></li>';
+  else h+='<li class="node locked"><span class="dot">'+ico('lock')+'</span><div><b>؟؟؟</b><small>لم يحن وقتها بعد</small></div></li>';
+ });
+ h+='<li class="node '+(c?'locked':'now')+'"><span class="dot">'+ico(c?'lock':'key')+'</span><div><b>'+(c?'؟؟؟':'الخزنة')+'</b><small>'+(c?'آخر الطريق':'حروفكِ كلها معكِ الآن')+'</small></div></li></ol>';
+ if(c)h+='<button class="btn" data-act="go">'+(st.rev[c]?'تابعي المحطة':'افتحي لغز المحطة التالية')+'</button>';
+ else h+='<button class="btn" data-act="final">'+ico('key')+'إلى الخزنة</button>';
+ return h;
+}
+function vStation(id){
+ var s=ST[id],ph=phase(id),n=st.order.indexOf(id)+1,name=esc(placeName(id)),h='',scene='cover';
+ if(ph==='riddle'){
+  var r=s.riddle;
+  h='<p class="eyebrow">'+ico('q')+'المحطة '+ar(n)+' · لغز الوجهة</p><h1 class="h1">إلى أين نمضي؟</h1>'+
+   '<div class="card"><p class="q">'+r.q+'</p></div>';
+  if(!st.hint[id])h+='<div class="tbar"><span id="tnum">'+ar(60)+'</span><div class="track"><i id="tfill"></i></div></div>';
+  h+='<div class="opts">'+r.opts.map(function(o,i){return '<button class="opt" type="button" data-act="answer" data-i="'+i+'">'+o+'</button>'}).join('')+'</div>'+
+   '<p class="msg" id="msg" role="status">'+(fined===id?'انتهى الوقت. الغرامة كلمةٌ حلوة للسائق، ثم اقرئي التلميح.':'')+'</p>';
+  if(st.hint[id])h+='<div class="card"><p class="eyebrow">'+ico('key')+'التلميح</p><p>'+r.hint+'</p></div>';
+  else h+='<button class="btn ghost" data-act="hint">'+ico('key')+'أريد تلميحًا</button><p class="fine center">ثمن التلميح كلمةٌ حلوة تقولينها للسائق أولًا.</p>';
+ }else if(ph==='reveal'){
+  var rv=st.rev[id];
+  h='<p class="eyebrow">'+ico(s.riddle?'check':'star')+(s.riddle?'أصبتِ':'محطةٌ بلا لغز')+'</p>'+
+   '<h1 class="h1">'+(rv?'وجهتنا القادمة':'امسحي الغطاء الذهبي بإصبعكِ')+'</h1>'+
+   '<div class="scratch"><div class="art" data-img="'+s.img+'">'+ico(s.icon)+'<strong>'+name+'</strong></div>'+(rv?'':'<canvas id="scratch" aria-label="غطاءٌ ذهبي يخفي الوجهة"></canvas>')+'</div>';
+  if(rv)h+='<p class="lead center">'+s.line+'</p><button class="btn" data-act="depart">انطلقنا</button>';
+  else h+='<button class="btn ghost" data-act="revealAll">اكشفي الوجهة دفعةً واحدة</button>';
+ }else if(ph==='road'){
+  scene='road';
+  h='<p class="eyebrow">'+ico('compass')+'في الطريق</p><h1 class="h1">إلى '+name+'</h1>'+
+   '<div class="card"><p class="eyebrow">'+ico('eye')+'مهمّةٌ سرّية · لكِ وحدكِ</p><p class="blurred" id="secretTxt">'+s.secret+'</p>'+
+   '<button class="btn ghost small" id="secretBtn" type="button">اضغطي مطوّلًا لقراءتها</button><p class="fine">لا تدعيه يرى الشاشة، ولا تخبريه بها. سيعرفها في آخر الليل.</p></div>'+
+   '<h2 class="h2">ألعاب الطريق</h2><p class="fine">'+ico('eye')+'أنتِ تقرئين وتضغطين، والسائق يجيب بصوته فقط وعيناه على الطريق.</p>'+
+   '<div class="games">'+GAMES.map(function(g){return '<button class="game" type="button" data-act="game" data-g="'+g.id+'">'+ico(g.icon)+'<b>'+g.name+'</b><small>'+g.sub+'</small></button>'}).join('')+'</div>'+
+   '<button class="btn" data-act="arrive">وصلنا</button>';
+ }else if(ph==='arrive'){
+  scene=s.scene;
+  h='<p class="eyebrow">'+ico(s.icon)+'وصلنا</p><h1 class="h1">'+name+'</h1>';
+  if(st.door[id]==null){
+   h+='<p class="lead">أمامكِ بابان مختومان. اختاري واحدًا، ولن تعرفي ما خلف الآخر.</p><div class="doors">'+
+    '<button class="door" type="button" data-act="door" data-i="0">'+ico('door')+'الباب الأيمن</button>'+
+    '<button class="door" type="button" data-act="door" data-i="1">'+ico('door')+'الباب الأيسر</button></div>';
+  }else{
+   var d=s.doors[st.door[id]];
+   h+='<div class="card"><p class="eyebrow">'+ico('door')+'خلف الباب: '+d.t+'</p><p>'+d.x+'</p></div>'+
+    '<p class="fine">'+ico('lock')+'الباب الآخر بقي مختومًا. ربما يُفتح في ليلةٍ أخرى.</p>'+
+    '<h2 class="h2">مهمّات المحطة</h2><ul class="tasks">'+s.tasks.map(function(t,i){var on=!!(st.tasks[id]&&st.tasks[id][i]);return '<li><button class="task'+(on?' on':'')+'" type="button" data-act="task" data-i="'+i+'" aria-pressed="'+on+'"><span class="box">'+ico('check')+'</span><span>'+t+'</span></button></li>'}).join('')+'</ul>'+
+    '<div class="card"><p class="eyebrow">'+ico('eye')+'مهمّتكِ السرّية</p><p>هل أنجزتِها من غير أن يدري؟</p><div class="row">'+
+    '<button class="btn small'+(st.secret[id]===true?'':' ghost')+'" data-act="sdone" data-v="1">أنجزتُها</button>'+
+    '<button class="btn small'+(st.secret[id]===false?'':' ghost')+'" data-act="sdone" data-v="0">لم أستطع</button></div></div>'+
+    '<button class="btn" data-act="finish">أنهينا هذه المحطة</button>';
+  }
+ }else{
+  scene=s.scene;
+  if(!st.rosed[id]){
+   h='<p class="eyebrow">'+ico('rose')+'انتهت المحطة</p><h1 class="h1">وردتكِ بانتظاركِ</h1>'+
+    '<p class="lead">اطلبيها من السائق الآن، ولا تضغطي حتى تصير في يدكِ.</p>'+
+    '<button class="btn" data-act="rose">'+ico('rose')+'استلمتُ الوردة</button>';
+  }else{
+   var rest=st.order.filter(function(x){return st.done.indexOf(x)<0&&x!==id});
+   var tease=rest.length?ST[rest[0]].tease:'لم يبقَ إلا الخزنة. حروفكِ كلها معكِ الآن.';
+   h='<p class="eyebrow">'+ico('rose')+'وردةٌ جديدة في باقتكِ</p><h1 class="h1">ومعها سببٌ من أسباب حبّي لكِ</h1>'+
+    '<div class="card"><p class="reason">'+s.reason+'</p></div>'+
+    '<div class="card"><p class="eyebrow">'+ico('key')+(st.got[id]==='♥'?'قطعةٌ من القلب':'حرفكِ الجديد')+'</p><div class="tiles">'+tilesOf(st.got[id]||'♥')+'</div></div>'+
+    '<div class="card"><p class="eyebrow">'+ico('star')+'ما الذي ينتظركِ؟</p><p>'+tease+'</p></div>'+
+    '<button class="btn" data-act="next">'+(rest.length?'إلى خريطة الليلة':'إلى الخزنة')+'</button>';
+  }
+ }
+ if(ph!=='rose')h+='<button class="link" type="button" data-act="toMap">العودة إلى الخريطة</button>';
+ return {html:h,scene:scene};
+}
+var SHUF=[2,3,0,1];
+function vFinal(){
+ if(lettersGot()<4)st.pieces.push(WORD.slice(lettersGot()));
+ var h='';
+ if(!st.vault){
+  var L=WORD.split('');
+  h='<p class="eyebrow">'+ico('key')+'آخر الطريق</p><h1 class="h1">الخزنة</h1>'+
+   '<p class="lead">كلمةٌ واحدة تفتحها. رتّبي حروفكِ بالضغط عليها واحدًا بعد الآخر.</p>'+
+   '<div class="slots" aria-label="الكلمة">'+[0,1,2,3].map(function(i){return '<span class="slot">'+(vaultTry[i]!=null?L[SHUF[vaultTry[i]]]:'')+'</span>'}).join('')+'</div>'+
+   '<div class="tiles">'+SHUF.map(function(k,i){return '<button class="tile" type="button" data-act="tile" data-i="'+i+'"'+(vaultTry.indexOf(i)>=0?' disabled':'')+'>'+L[k]+'</button>'}).join('')+'</div>'+
+   '<p class="msg" id="msg" role="status">'+vaultMsg+'</p>'+
+   '<button class="btn ghost" data-act="vclear">امسحي وأعيدي الترتيب</button>'+
+   '<p class="fine center">تلميح: اسألي السائق عن الكلمة التي يودّ أن يقولها لكِ الآن.</p>';
+ }else{
+  var txt=(st.letter&&st.letter.trim())||DEFAULT_LETTER;
+  var t=totalRoses(),r='';for(var i=0;i<t;i++)r+=ico('rose','got');
+  var ids=Object.keys(st.secret).filter(function(k){return ST[k]});
+  h='<p class="eyebrow center">'+ico('key')+'انفتحت الخزنة</p><h1 class="h1 word">أُحِبُّكِ</h1>'+
+   '<div class="card decree letter"><p><strong>'+esc(st.nick)+'،</strong></p>'+txt.split(/\n+/).map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+
+   '<p class="sign">'+esc((st.sign&&st.sign.trim())||'سائقكِ الليلة وكل ليلة')+'</p></div>'+
+   '<div class="card"><p class="eyebrow">'+ico('rose')+'باقتكِ اكتملت</p><div class="bouquet">'+r+'</div><p>مع السائق شريطة. اربطا بها الباقة معًا.</p></div>';
+  if(ids.length){
+   h+='<div class="card"><p class="eyebrow">'+ico('eye')+'والآن أريه الشاشة</p><p>هذه مهمّاتكِ السرّية التي حملتِها الليلة من غير أن يدري:</p><ul class="reveal">'+
+    ids.map(function(k){return '<li>'+ico(st.secret[k]?'check':'x')+'<span>'+ST[k].secret+'</span></li>'}).join('')+'</ul></div>';
+  }
+  if(st.score.her||st.score.him)h+='<div class="card"><p class="eyebrow">'+ico('q')+'نتيجة «هل تعرفينني؟»</p><p>أنتِ: '+ar(st.score.her)+' · هو: '+ar(st.score.him)+'</p></div>';
+  h+='<p class="lead center">انتهت المغامرة، وبقينا نحن.</p>';
+ }
+ return h;
+}
+
+function render(){
+ if(tmr){clearInterval(tmr);tmr=null}
+ var html='',scene='cover';
+ if(st.screen==='station'&&!cur())st.screen='final';
+ if(AUD.decree&&!AUD.decree.paused&&st.screen!=='intro'){try{AUD.decree.pause()}catch(e){}}
+ if(st.screen==='cover')html=vCover();
+ else if(st.screen==='intro')html=vIntro();
+ else if(st.screen==='map')html=vMap();
+ else if(st.screen==='station'){var r=vStation(cur());html=r.html;scene=r.scene}
+ else{html=vFinal();scene='home'}
+ $('#app').dataset.scene=scene;
+ $('#view').innerHTML=html;
+ var c=$('#count');
+ if(st.screen==='cover'){c.hidden=true}else{c.hidden=false;c.innerHTML=ico('rose')+'<span>'+ar(st.roses)+' / '+ar(totalRoses())+'</span>'}
+ after();save();
+ try{window.scrollTo(0,0)}catch(e){}
+}
+
+/* ---------- behaviours bound after each render ---------- */
+function hold(el,ms,done,prog){
+ var iv=null,t0=0,fired=false;
+ function stop(){if(iv){clearInterval(iv);iv=null}if(!fired&&prog)prog(0)}
+ function start(e){
+  if(e.type==='keydown'&&(e.repeat||!(e.key===' '||e.key==='Enter')))return;
+  if(iv)return;fired=false;t0=Date.now();
+  iv=setInterval(function(){var p=Math.min(1,(Date.now()-t0)/ms);if(prog)prog(p);if(p>=1){fired=true;clearInterval(iv);iv=null;done()}},30);
+ }
+ el.addEventListener('pointerdown',start);el.addEventListener('keydown',start);
+ ['pointerup','pointerleave','pointercancel','keyup','blur'].forEach(function(n){el.addEventListener(n,stop)});
+ el.addEventListener('contextmenu',function(e){e.preventDefault()});
+}
+function after(){
+ var seal=$('#seal');
+ if(seal){
+  var ring=$('#sealRing'),hint=$('#sealHint');
+  hold(seal,1300,function(){seal.classList.add('broken');hint.textContent='انكسر الختم';musicOn=true;sealPending=true;sfx('seal',function(){sealPending=false});tryMusic();setTimeout(function(){st.screen='intro';render()},520)},
+   function(p){ring.style.strokeDashoffset=String(352*(1-p));if(p>0&&p<1)hint.textContent='لا ترفعي إصبعكِ…';else if(p===0)hint.textContent='اضغطي مطوّلًا على الختم'});
+ }
+ var sb=$('#secretBtn'),tx=$('#secretTxt');
+ if(sb&&tx){
+  var on=function(){tx.classList.add('show')},off=function(){tx.classList.remove('show')};
+  sb.addEventListener('pointerdown',on);sb.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter')on()});
+  ['pointerup','pointerleave','pointercancel','keyup','blur'].forEach(function(n){sb.addEventListener(n,off)});
+  sb.addEventListener('contextmenu',function(e){e.preventDefault()});
+ }
+ if($('#tnum'))startTimer(cur());
+ if($('#scratch'))initScratch(cur());
+}
+function startTimer(id){
+ var t=60,num=$('#tnum'),fill=$('#tfill');
+ function tick(){
+  if(!num.isConnected){clearInterval(tmr);tmr=null;return}
+  num.textContent=ar(t);fill.style.transform='scaleX('+(t/60)+')';
+  if(t<=0){clearInterval(tmr);tmr=null;st.hint[id]=true;fined=id;render();return}
+  t--;
+ }
+ tick();tmr=setInterval(tick,1000);
+}
+function initScratch(id){
+ var c=$('#scratch'),box=c.parentElement,w=box.clientWidth,h=box.clientHeight,ctx;
+ try{ctx=c.getContext('2d')}catch(e){}
+ if(!ctx||!w||!h){st.rev[id]=true;render();return}
+ var dpr=Math.min(window.devicePixelRatio||1,2);
+ c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);ctx.scale(dpr,dpr);
+ var g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#b8862f');g.addColorStop(.35,'#f3d58a');g.addColorStop(.6,'#c9973c');g.addColorStop(1,'#f0cf7c');
+ ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+ ctx.fillStyle='rgba(70,36,8,.8)';ctx.textAlign='center';ctx.font='700 20px Tajawal, sans-serif';
+ try{ctx.direction='rtl'}catch(e){}
+ ctx.fillText('امسحي هنا',w/2,h/2);
+ ctx.globalCompositeOperation='destination-out';
+ var down=false,moves=0,finished=false;
+ function at(e){var r=c.getBoundingClientRect();ctx.beginPath();ctx.arc(e.clientX-r.left,e.clientY-r.top,30,0,Math.PI*2);ctx.fill();if(++moves%6===0)check()}
+ function check(){
+  if(finished)return;var d;
+  try{d=ctx.getImageData(0,0,c.width,c.height).data}catch(e){return}
+  var clear=0,tot=0;for(var i=3;i<d.length;i+=4*53){tot++;if(d[i]===0)clear++}
+  if(clear/tot>.45){finished=true;st.rev[id]=true;render()}
+ }
+ c.addEventListener('pointerdown',function(e){down=true;try{c.setPointerCapture(e.pointerId)}catch(x){}at(e)});
+ c.addEventListener('pointermove',function(e){if(down)at(e)});
+ ['pointerup','pointercancel'].forEach(function(n){c.addEventListener(n,function(){down=false;check()})});
+}
+
+/* ---------- games ---------- */
+var G=null;
+function game(id){for(var i=0;i<GAMES.length;i++)if(GAMES[i].id===id)return GAMES[i]}
+function openGame(id){G={id:id,pick:null,event:null};$('#modal').hidden=false;drawGame()}
+function closeGame(){G=null;$('#modal').hidden=true;$('#modal').innerHTML=''}
+function advance(){
+ st.gi[G.id]=(st.gi[G.id]||0)+1;st.cards=(st.cards||0)+1;G.pick=null;
+ if(st.cards%4===0){var pool=[];SURPRISES.forEach(function(_,i){if(st.used.indexOf(i)<0)pool.push(i)});
+  if(pool.length){var k=pool[Math.floor(Math.random()*pool.length)];st.used.push(k);G.event=k}}
+ save();drawGame();
+}
+function drawGame(){
+ var g=game(G.id),i=st.gi[g.id]||0,b='';
+ if(G.event!=null){
+  b='<div class="event"><p class="eyebrow">'+ico('bolt')+'توقّفي! حدثٌ مفاجئ</p><p class="prompt">'+SURPRISES[G.event]+'</p></div><button class="btn" data-act="evok">تابعي اللعب</button>';
+ }else if(g.id==='bingo'){
+  b='<p class="prog">اضغطي على كل ما ترينه في الطريق. من يكمل صفًّا من ثلاثة له أمنيةٌ يحققها الآخر الليلة.</p><div class="bingo">'+
+   g.deck.map(function(t,k){var on=!!st.bingo[k];return '<button class="cell'+(on?' on':'')+'" type="button" data-act="cell" data-i="'+k+'" aria-pressed="'+on+'">'+t+'</button>'}).join('')+'</div>'+
+   '<p class="msg" role="status">'+(st.bingoWon?'اكتمل صفّ! لكِ أمنيةٌ يحققها السائق الليلة.':'')+'</p>';
+ }else if(i>=g.deck.length){
+  b='<p class="prompt">انتهت أوراق هذه اللعبة.</p>'+
+   (g.id==='who'?'<p class="prog">النتيجة: أنتِ '+ar(st.tally.me)+' · هو '+ar(st.tally.him)+' · كلاكما '+ar(st.tally.both)+'</p>':'')+
+   (g.id==='know'?'<p class="prog">النتيجة: أنتِ '+ar(st.score.her)+' · هو '+ar(st.score.him)+'</p>':'')+
+   '<button class="btn ghost" data-act="again">أعيدي الأوراق من البداية</button>';
+ }else{
+  var p=g.deck[i],prog='<p class="prog">الورقة '+ar(i+1)+' من '+ar(g.deck.length)+'</p>';
+  if(g.id==='who'){
+   b=prog+'<p class="prompt">'+p+'</p><div class="row"><button class="btn small" data-act="who" data-v="me">أنا</button><button class="btn small" data-act="who" data-v="him">هو</button><button class="btn small ghost" data-act="who" data-v="both">كلانا</button></div>';
+  }else if(g.id==='rather'){
+   if(G.pick==null)b=prog+'<p class="prompt">لو خُيّرتِ بين…</p><div class="opts"><button class="opt" type="button" data-act="pick" data-v="0">'+p[0]+'</button><button class="opt" type="button" data-act="pick" data-v="1">'+p[1]+'</button></div>';
+   else b=prog+'<p class="prog">اختياركِ</p><p class="prompt">'+p[G.pick]+'</p><p class="prog">والآن دوره: ماذا يختار، ولماذا؟</p><button class="btn" data-act="adv">التالي</button>';
+  }else if(g.id==='know'){
+   var her=p[0]==='her';
+   b=prog+'<p class="eyebrow center">'+(her?'سؤالٌ لكِ عنه':'سؤالٌ له عنكِ')+'</p><p class="prompt">'+p[1]+'</p>'+
+    '<p class="prog">'+(her?'أجيبي بصوتكِ، وهو يحكم.':'يجيب بصوته، وأنتِ تحكمين.')+'</p>'+
+    '<div class="row"><button class="btn small" data-act="know" data-v="1">إجابةٌ صحيحة</button><button class="btn small ghost" data-act="know" data-v="0">إجابةٌ خاطئة</button></div>'+
+    '<p class="prog">أنتِ '+ar(st.score.her)+' · هو '+ar(st.score.him)+'</p>';
+  }else{
+   b=prog+'<p class="prompt">'+p+'</p><p class="prog">أكمليها أنتِ أولًا، ثم يكمل هو الجملة نفسها.</p><button class="btn" data-act="adv">التالي</button>';
+  }
+ }
+ $('#modal').innerHTML='<div class="sheet gut" role="dialog" aria-modal="true" aria-labelledby="gTitle"><div class="shead"><h2 id="gTitle">'+g.name+'</h2><button class="x" type="button" data-act="gclose" aria-label="إغلاق اللعبة">'+ico('x')+'</button></div>'+b+'</div>';
+}
+function bingoLine(){var b=st.bingo,L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];return L.some(function(l){return b[l[0]]&&b[l[1]]&&b[l[2]]})}
+
+/* ---------- secret panel ---------- */
+var resetAsk=false;
+function openPanel(){resetAsk=false;$('#panel').hidden=false;drawPanel()}
+function closePanel(){$('#panel').hidden=true;$('#panel').innerHTML='';render()}
+function drawPanel(){
+ var rows=st.order.concat(ALL.filter(function(x){return st.order.indexOf(x)<0}));
+ var live=st.order.filter(function(x){return st.done.indexOf(x)<0});
+ var h='<div class="sheet gut" role="dialog" aria-modal="true" aria-labelledby="pTitle"><div class="shead"><h2 id="pTitle">لوحة السائق</h2><button class="x" type="button" data-pact="close" aria-label="إغلاق اللوحة">'+ico('x')+'</button></div>'+
+  '<div class="note"><p>تحتاج '+ar(totalRoses())+' وردات: واحدة للانطلاقة وواحدة لكل محطة مفعّلة. الكلمة السرّية: أحبك.</p></div>'+
+  '<div class="field"><label for="p-nick">اسمها أو دلعها كما يظهر لها</label><input id="p-nick" type="text" data-pin="nick" value="'+esc(st.nick)+'"></div>'+
+  '<div class="field"><label for="p-sign">توقيعك في آخر الرسالة</label><input id="p-sign" type="text" data-pin="sign" value="'+esc(st.sign)+'" placeholder="سائقكِ الليلة وكل ليلة"></div>'+
+  '<div class="field"><label for="p-letter">رسالتك داخل الخزنة (اتركها فارغة لتبقى الرسالة الجاهزة)</label><textarea id="p-letter" data-pin="letter">'+esc(st.letter)+'</textarea></div>'+
+  '<h2>المحطات</h2><ul class="plist">';
+ rows.forEach(function(id){
+  var on=st.order.indexOf(id)>=0,done=st.done.indexOf(id)>=0,li=live.indexOf(id);
+  h+='<li class="prow"><div class="phead"><label class="chk"><input type="checkbox" id="p-on-'+id+'" data-pact="toggle" data-id="'+id+'"'+(on?' checked':'')+(done?' disabled':'')+'><span>'+ST[id].name+(done?' (اكتملت)':'')+'</span></label>'+
+   '<div class="pbtns"><button class="pb" type="button" data-pact="up" data-id="'+id+'" aria-label="تقديم '+ST[id].name+'"'+(li>0?'':' disabled')+'>'+ico('up')+'</button>'+
+   '<button class="pb" type="button" data-pact="down" data-id="'+id+'" aria-label="تأخير '+ST[id].name+'"'+(li>=0&&li<live.length-1?'':' disabled')+'>'+ico('down')+'</button>'+
+   '<button class="pb" type="button" data-pact="next" data-id="'+id+'"'+(done||li===0?' disabled':'')+'>اجعلها التالية</button></div></div>'+
+   '<label class="plabel" for="p-place-'+id+'">اسم المكان الذي يظهر عند الكشف</label><input id="p-place-'+id+'" type="text" data-pin="place" data-id="'+id+'" value="'+esc(st.places[id]||'')+'" placeholder="'+ST[id].name+'"></li>';
+ });
+ h+='</ul><button class="btn ghost" type="button" data-pact="final">الانتقال إلى الخزنة الآن</button>';
+ h+=resetAsk?'<div class="row"><button class="btn small" type="button" data-pact="resetYes">نعم، أعد الليلة من البداية</button><button class="btn small ghost" type="button" data-pact="resetNo">تراجع</button></div>'
+  :'<button class="btn ghost" type="button" data-pact="reset">إعادة الليلة من البداية</button>';
+ h+='<button class="btn" type="button" data-pact="close">حفظ وإغلاق</button></div>';
+ $('#panel').innerHTML=h;
+}
+function liveIdx(){for(var i=0;i<st.order.length;i++)if(st.done.indexOf(st.order[i])<0)return i;return st.order.length}
+function pAct(a,id){
+ var i=st.order.indexOf(id),j;
+ if(a==='close'){closePanel();return}
+ if(a==='up'||a==='down'){
+  j=a==='up'?i-1:i+1;
+  if(i>=0&&j>=0&&j<st.order.length&&st.done.indexOf(st.order[j])<0){var t=st.order[i];st.order[i]=st.order[j];st.order[j]=t}
+ }else if(a==='next'){
+  if(i>=0)st.order.splice(i,1);st.order.splice(liveIdx(),0,id);
+ }else if(a==='final'){st.screen='final';save();closePanel();return}
+ else if(a==='reset'){resetAsk=true}
+ else if(a==='resetNo'){resetAsk=false}
+ else if(a==='resetYes'){
+  var keep={nick:st.nick,sign:st.sign,letter:st.letter,places:st.places,order:st.order};
+  st=Object.assign(fresh(),keep);fined=null;vaultTry=[];vaultMsg='';resetAsk=false;save();closePanel();return;
+ }
+ save();drawPanel();
+}
+
+/* ---------- actions ---------- */
+function act(a,el){
+ var id=cur(),v=el.getAttribute('data-v'),i=parseInt(el.getAttribute('data-i'),10);
+ switch(a){
+  case 'openRose':st.openRose=true;st.roses=1;nextPiece(st.order.length);sfx('chime');break;
+  case 'narrate':
+   try{var nr=AUD.decree||(AUD.decree=mk('decree'));
+    if(nr.paused){if(bgm)bgm.volume=.2;nr.onended=nr.onpause=function(){if(bgm)bgm.volume=.6};var np=nr.play();if(np&&np.catch)np.catch(function(){})}else nr.pause()}catch(e){}
+   return;
+  case 'toMap':st.screen='map';break;
+  case 'go':st.screen='station';break;
+  case 'final':st.screen='final';break;
+  case 'answer':
+   if(i===ST[id].riddle.a){fined=null;st.ph[id]='reveal';sfx('chime');break}
+   el.classList.add('wrong');el.disabled=true;$('#msg').textContent='ليس هذا. اقرئي اللغز ثانيةً.';return;
+  case 'hint':st.hint[id]=true;break;
+  case 'revealAll':st.rev[id]=true;break;
+  case 'depart':st.ph[id]='road';break;
+  case 'arrive':st.ph[id]='arrive';break;
+  case 'door':st.door[id]=i;break;
+  case 'task':if(!st.tasks[id])st.tasks[id]=[];st.tasks[id][i]=!st.tasks[id][i];
+   el.classList.toggle('on',!!st.tasks[id][i]);el.setAttribute('aria-pressed',String(!!st.tasks[id][i]));save();return;
+  case 'sdone':st.secret[id]=v==='1';break;
+  case 'finish':if(st.secret[id]==null)st.secret[id]=false;st.ph[id]='rose';break;
+  case 'rose':
+   st.rosed[id]=true;st.roses++;sfx('chime');
+   st.got[id]=nextPiece(st.order.filter(function(x){return st.done.indexOf(x)<0&&x!==id}).length);break;
+  case 'next':st.done.push(id);st.screen=cur()?'map':'final';break;
+  case 'tile':
+   if(vaultTry.indexOf(i)<0)vaultTry.push(i);vaultMsg='';
+   if(vaultTry.length===4){
+    var w=vaultTry.map(function(k){return WORD[SHUF[k]]}).join('');
+    if(w===WORD){st.vault=true;vaultTry=[];sfx('vault')}
+    else{vaultMsg='ليست هذه الكلمة. جرّبي ترتيبًا آخر.';render();setTimeout(function(){if(!st.vault){vaultTry=[];render()}},900);return}
+   }
+   break;
+  case 'vclear':vaultTry=[];vaultMsg='';break;
+  case 'game':openGame(el.getAttribute('data-g'));return;
+  case 'gclose':closeGame();return;
+  case 'evok':G.event=null;drawGame();return;
+  case 'again':st.gi[G.id]=0;if(G.id==='who')st.tally={me:0,him:0,both:0};save();drawGame();return;
+  case 'who':st.tally[v]=(st.tally[v]||0)+1;advance();return;
+  case 'pick':G.pick=parseInt(v,10);drawGame();return;
+  case 'adv':advance();return;
+  case 'know':if(v==='1'){var q=game('know').deck[st.gi.know||0];st.score[q[0]]++}advance();return;
+  case 'cell':st.bingo[i]=!st.bingo[i];if(!st.bingoWon&&bingoLine())st.bingoWon=true;save();drawGame();return;
+  default:return;
+ }
+ render();
+}
+
+/* ---------- wiring ---------- */
+var held=false;
+function boot(data){
+ load();
+ if(data&&data.st&&typeof data.st==='object')st=Object.assign(fresh(),data.st);
+ var crown=$('#crown');crown.innerHTML=ico('crown');
+ hold(crown,1200,function(){held=true;openPanel()});
+ crown.addEventListener('click',function(){
+  if(held){held=false;return}
+  if(st.screen!=='cover'&&st.screen!=='intro'){st.screen='map';render()}
+ });
+ musicOn=st.screen!=='cover';drawSnd();
+ $('#snd').addEventListener('click',function(){st.mute=!st.mute;if(st.mute){if(bgm)bgm.pause()}else tryMusic();drawSnd();save()});
+ document.addEventListener('pointerup',function(){if(sealPending){sealPending=false;sfx('seal')}tryMusic()},true);
+ $('#app').addEventListener('click',function(e){
+  var p=e.target.closest('[data-pact]');
+  if(p&&p.tagName!=='INPUT'){pAct(p.getAttribute('data-pact'),p.getAttribute('data-id'));return}
+  if(e.target===$('#modal')){closeGame();return}
+  var el=e.target.closest('[data-act]');if(el)act(el.getAttribute('data-act'),el);
+ });
+ $('#panel').addEventListener('change',function(e){
+  var t=e.target;if(t.getAttribute('data-pact')!=='toggle')return;
+  var id=t.getAttribute('data-id'),i=st.order.indexOf(id);
+  if(t.checked&&i<0){var h=st.order.indexOf('home');if(h>=0&&st.done.indexOf('home')<0&&id!=='home')st.order.splice(h,0,id);else st.order.push(id)}
+  else if(!t.checked&&i>=0)st.order.splice(i,1);
+  save();drawPanel();
+ });
+ $('#panel').addEventListener('input',function(e){
+  var t=e.target,k=t.getAttribute('data-pin');if(!k)return;
+  if(k==='place')st.places[t.getAttribute('data-id')]=t.value;else st[k]=t.value;
+  if(k==='nick'&&!t.value.trim())st.nick='أميرتي';
+  save();
+ });
+ render();
+}
+window.__night={get st(){return st},openPanel:openPanel,render:render};
+try{if(window.claude&&window.claude.hot&&window.claude.hot.snapshot)window.claude.hot.snapshot(function(){return {st:st}})}catch(e){}
+if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(boot);
+else boot((window.claude&&window.claude.hot&&window.claude.hot.data)||{});
+})();
+</script>
