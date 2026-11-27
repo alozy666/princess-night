@@ -313,17 +313,21 @@ var SURPRISES=[
  'خبرٌ عاجل: السائق يقول إنكِ أجمل ما في هذه الليلة.'
 ];
 var WORD='أحبك';
-var DEFAULT_LETTER='أحبش يا روحي عسى ما أنحرم من هالبسمة والفرحة والسعادة يا روحي يا قلبي الجميلة إسراء';
+var DEFAULT_LETTER='أحبش يا قلبي يا أميرتي❤️🍯\nعسى أيامش كلها سعادة وحب وطمأنينة\nالله لايحرمني من هالبسمة الحلوة🌺😋';
+var DEF_NICK='أميرتي إسراء الجميلة🤤❤️';
+var DEF_SIGN='حبيبك العاشق الولهان علي💘';
+var DEF_PLACE={dinner:'The bossman',sea:'شاطئ كرباباد',home:'شقتنا الجميلة🙃💘'};
 
 /* ---------- state ---------- */
 var KEY='princess-night-v1';
-function fresh(){return {screen:'cover',nick:'أميرتي الجميلة',sign:'',letter:'',order:['dinner','sea','home'],places:{},done:[],ph:{},rev:{},hint:{},door:{},tasks:{},secret:{},rosed:{},got:{},pieces:[],roses:0,openRose:false,score:{her:0,him:0},tally:{me:0,him:0,both:0},gi:{},bingo:[],bingoWon:false,used:[],cards:0,vault:false,mute:false}}
+function fresh(){return {screen:'cover',nick:DEF_NICK,sign:'',letter:'',order:['dinner','sea','home'],places:{},done:[],ph:{},rev:{},hint:{},door:{},tasks:{},secret:{},rosed:{},got:{},pieces:[],roses:0,openRose:false,score:{her:0,him:0},tally:{me:0,him:0,both:0},gi:{},bingo:[],bingoWon:false,used:[],cards:0,vault:false,mute:false}}
 var st=fresh();
-function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object')st=Object.assign(fresh(),s)}catch(e){}}
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object')st=Object.assign(fresh(),s)}catch(e){}
+ if(!st.nick||st.nick==='أميرتي الجميلة')st.nick=DEF_NICK}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
 
 function cur(){for(var i=0;i<st.order.length;i++){if(st.done.indexOf(st.order[i])<0)return st.order[i]}return null}
-function placeName(id){var p=st.places[id];return (p&&p.trim())||ST[id].name}
+function placeName(id){var p=st.places[id];return (p&&p.trim())||DEF_PLACE[id]||ST[id].name}
 function phase(id){return st.ph[id]||(ST[id].riddle?'riddle':'reveal')}
 function lettersGot(){return st.pieces.join('').replace(/♥/g,'').length}
 function allLetters(){return st.pieces.join('').replace(/♥/g,'').split('')}
@@ -485,7 +489,7 @@ function vFinal(){
   var ids=Object.keys(st.secret).filter(function(k){return ST[k]});
   h='<p class="eyebrow center">'+ico('key')+'انفتحت الخزنة</p><h1 class="h1 word">أُحِبُّكِ</h1>'+
    '<div class="card decree letter"><p><strong>'+esc(st.nick)+'،</strong></p>'+txt.split(/\n+/).map(function(p){return '<p>'+esc(p)+'</p>'}).join('')+
-   '<p class="sign">'+esc((st.sign&&st.sign.trim())||'سائقكِ الليلة وكل ليلة')+'</p></div>'+
+   '<p class="sign">'+esc((st.sign&&st.sign.trim())||DEF_SIGN)+'</p></div>'+
    '<div class="card"><p class="eyebrow">'+ico('rose')+'باقتكِ اكتملت</p><div class="bouquet">'+r+'</div><p>مع السائق شريطة. اربطا بها الباقة معًا.</p></div>';
   if(ids.length){
    h+='<div class="card"><p class="eyebrow">'+ico('eye')+'والآن أريه الشاشة</p><p>هذه مهمّاتكِ السرّية التي حملتِها الليلة من غير أن يدري:</p><ul class="reveal">'+
@@ -635,7 +639,7 @@ function drawPanel(){
  var h='<div class="sheet gut" role="dialog" aria-modal="true" aria-labelledby="pTitle"><div class="shead"><h2 id="pTitle">لوحة السائق</h2><button class="x" type="button" data-pact="close" aria-label="إغلاق اللوحة">'+ico('x')+'</button></div>'+
   '<div class="note"><p>تحتاج '+ar(totalRoses())+' وردات: واحدة للانطلاقة وواحدة لكل محطة مفعّلة. الكلمة السرّية: أحبك.</p></div>'+
   '<div class="field"><label for="p-nick">اسمها أو دلعها كما يظهر لها</label><input id="p-nick" type="text" data-pin="nick" value="'+esc(st.nick)+'"></div>'+
-  '<div class="field"><label for="p-sign">توقيعك في آخر الرسالة</label><input id="p-sign" type="text" data-pin="sign" value="'+esc(st.sign)+'" placeholder="سائقكِ الليلة وكل ليلة"></div>'+
+  '<div class="field"><label for="p-sign">توقيعك في آخر الرسالة</label><input id="p-sign" type="text" data-pin="sign" value="'+esc(st.sign)+'" placeholder="'+esc(DEF_SIGN)+'"></div>'+
   '<div class="field"><label for="p-letter">رسالتك داخل الخزنة (اتركها فارغة لتبقى الرسالة الجاهزة)</label><textarea id="p-letter" data-pin="letter">'+esc(st.letter)+'</textarea></div>'+
   '<h2>المحطات</h2><ul class="plist">';
  rows.forEach(function(id){
@@ -644,7 +648,7 @@ function drawPanel(){
    '<div class="pbtns"><button class="pb" type="button" data-pact="up" data-id="'+id+'" aria-label="تقديم '+ST[id].name+'"'+(li>0?'':' disabled')+'>'+ico('up')+'</button>'+
    '<button class="pb" type="button" data-pact="down" data-id="'+id+'" aria-label="تأخير '+ST[id].name+'"'+(li>=0&&li<live.length-1?'':' disabled')+'>'+ico('down')+'</button>'+
    '<button class="pb" type="button" data-pact="next" data-id="'+id+'"'+(done||li===0?' disabled':'')+'>اجعلها التالية</button></div></div>'+
-   '<label class="plabel" for="p-place-'+id+'">اسم المكان الذي يظهر عند الكشف</label><input id="p-place-'+id+'" type="text" data-pin="place" data-id="'+id+'" value="'+esc(st.places[id]||'')+'" placeholder="'+ST[id].name+'"></li>';
+   '<label class="plabel" for="p-place-'+id+'">اسم المكان الذي يظهر عند الكشف</label><input id="p-place-'+id+'" type="text" data-pin="place" data-id="'+id+'" value="'+esc(st.places[id]||'')+'" placeholder="'+esc(DEF_PLACE[id]||ST[id].name)+'"></li>';
  });
  h+='</ul><button class="btn ghost" type="button" data-pact="final">الانتقال إلى الخزنة الآن</button>';
  h+=resetAsk?'<div class="row"><button class="btn small" type="button" data-pact="resetYes">نعم، أعد الليلة من البداية</button><button class="btn small ghost" type="button" data-pact="resetNo">تراجع</button></div>'
